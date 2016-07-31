@@ -5,36 +5,41 @@ namespace ConsoleApplication
 {
     public class Program
     {
+        private static int FindBiggestIndex(List<int> list)
+        {
+            int max = list[0];
+            int maxPos = 0;
+            
+            for(int i=1; i<list.Count;i++)
+            {
+                if(list[i]>max)
+                {
+                    maxPos = i;
+                    max = list[i];
+                }
+            }
+            return maxPos;
+        }
+
         public static void Main(string[] args)
         {
             var unsorted = new List<int>{5,7,82,3,54,67,32,45,11,-11};
-            var done = false;
             var sorted = new List<int>();
-            var ops = 0;
 
             Console.Write ("Unsorted ");
             unsorted.ForEach(i=>Console.Write("{0} ",i));
             Console.WriteLine();
 
-            while(!done)
+            int loops = unsorted.Count;
+
+            for(var i = 0; i < loops; i++)
             {
-                int max = int.MinValue;
-                int maxPos = -1;
-                for(int i=0; i<unsorted.Count;i++)
-                {
-                    if(unsorted[i]>max)
-                    {
-                        maxPos = i;
-                        max = unsorted[i];
-                    }
-                    ops++;
-                }
-                sorted.Add(max);
+                var maxPos = FindBiggestIndex(unsorted);
+                sorted.Add(unsorted[maxPos]);
                 unsorted.RemoveAt(maxPos);
-                done = unsorted.Count == 0;
             }
 
-            Console.Write ("Sorted {0} elememts in {1} ops ", sorted.Count,ops);
+            Console.Write ("Sorted {0} elememts ", loops);
             sorted.ForEach(i=>Console.Write("{0} ",i));
             Console.WriteLine();
         }
